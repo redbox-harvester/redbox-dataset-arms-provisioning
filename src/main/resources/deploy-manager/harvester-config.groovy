@@ -114,7 +114,7 @@ environments {
 	production {
 		client {
 			harvesterId = harvesterId // the unique harvester name, can be dynamic or static. Console only clients likely won't need this to be dynamic.
-			description = "Sample ReDBox Dataset JDBC Harvester"
+			description = "Provisioned ARMS requests to ReDBox"
 			base = "${managerBase}${harvesterId}/".toString() // optional base directory.
 			autoStart = true // whether the Harvester Manager will start this harvester upon start up otherwise, it will be manually started by an administrator
 			siFile = "applicationContext-SI-harvester.xml" // the app context definition for SI
@@ -130,37 +130,29 @@ environments {
 		}
 		harvest {
 		    rabbitmq {
-				url='203.101.224.241'
-				username='demo'
-				password='demo'
-				queuename='livearc-provisioning'
-				port=5672
-			}
-			jdbc {
-				user = "SA"
-				pw = ""
-				driver = "org.hsqldb.jdbcDriver"
-				url = "jdbc:hsqldb:file:"+client.base+"db/data/local"
-				Dataset {
-					query = "SELECT * FROM \"dataset\" WHERE \"last_updated\" >= TIMESTAMP(:last_harvest_ts)"
-					sqlParam {
-						last_harvest_ts = "2013-10-10 00:00:00"
-					}
-				}
+				url='localhost'
+				username='arms'
+				password='rbadmin'
+				queuename='arms-redbox'
+				port=2000
 			}
 			pollRate = "120000" // poll every x milliseconds
 			pollTimeout = "60000" // each poll should complete within these milliseconds
 			scripts {
 				scriptBase = client.base + "resources/scripts/"
-				//             "script path" : "configuration path" - pass in an emtpy string config path if you do not want to override the script's default config lookup behavior.
-				preBuild = [] // executed after a successful, but prior to building the JSON String, no data is passed
-				preAssemble = [["merge.groovy":""]] // executed prior to building the JSON string, each resultset (map) of the JDBC poll is passed as 'data'
-				postBuild = [["update_last_harvest_ts.groovy":""],["saveconfig.groovy":""]] // executed after the data is processed, but prior to ending the poll
+				//"script path" : "configuration path" - pass in an emtpy string config path if you do not want to override the script's default config lookup behavior.
+				preBuild = []
+        		preAssemble = [['arms2redboxmapper.groovy': '']]
+        		postBuild = []
+			}
+			activemq {
+				url = "tcp://localhost:9101"
+			}
+			redbox{
+				templatePath = client.base+'resources/scripts/template-data/dataset-template.json'
+				versionNumber = '1.9-SNAPSHOT'
 			}
 		}
-		activemq {
-			url = "tcp://localhost:9101"
-		}
-		redboxTemplatePath=client.base+'resources/scripts/template-data/dataset-template.json'
+	
 	}
 }

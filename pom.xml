@@ -1,13 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+		<groupId>au.com.redboxresearchdata</groupId>
+	<artifactId>redbox-dataset-arms-provisioning</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<parent>
 		<groupId>au.com.redboxresearchdata</groupId>
 		<artifactId>ci-parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
 	</parent>
-	<artifactId>redbox-dataset-arms-provisioning</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<name>arms-provisioning-redbox-collection</name>
 	<dependencies>
 		<dependency>
@@ -143,4 +144,16 @@
 			</build>
 		</profile>
 	</profiles>
+	<repositories>
+		<repository>
+		<id>nexus-public</id>
+		<name>Nexus public</name>
+		 <url>http://dev.redboxresearchdata.com.au/nexus/content/groups/public/</url>
+		</repository>
+		<repository>
+		<id>nexus-snapshots</id>
+		<name>Nexus snapshots</name>
+		 <url>http://dev.redboxresearchdata.com.au/nexus/content/repositories/snapshots/</url>
+		</repository>
+	</repositories>
 </project>

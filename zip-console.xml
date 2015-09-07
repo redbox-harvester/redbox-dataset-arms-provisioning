@@ -24,6 +24,14 @@
 	    </includes>
 	</fileSet>
 	<fileSet>
+      <directory>${project.basedir}/src/main/resources/deploy-console</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>*.sh</include>
+      </includes>
+      <fileMode>740</fileMode>
+    </fileSet>
+	<fileSet>
 	    <directory>${project.basedir}/src/main/resources/resources</directory>
 	    <outputDirectory>/resources/</outputDirectory>
 	    <includes>
